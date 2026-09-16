@@ -1,4 +1,4 @@
-# Workflows and how the clock is put together
+# How RISC OS Clock works
 
 This note is for someone who wants to **build and run** the tribute on each OS, and to see how a small Free Pascal desktop clock is structured: where it starts, who owns time, who paints pixels, and how fullscreen is wired.
 

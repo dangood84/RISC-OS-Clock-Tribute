@@ -211,4 +211,4 @@ Quit: menu **Quit** → `NSApplication.terminate`. Close box → `applicationSho
 
 Debugger: `HostRun`, `TAppDelegate.setup`, `TClockModel.Apply`, `RenderClock`, `MakeImage`. The first `tick:` already paints; `FFirst` makes `SecondTicked` true even if the wall clock has not moved.
 
-See also `WORKFLOWS.md` for build commands, class responsibilities, and the clamp of the disc inside a non-square window.
+See also `WORKINGS.md` for class responsibilities, hand angles, and the clamp of the disc inside a non-square window.

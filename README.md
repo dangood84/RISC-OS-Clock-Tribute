@@ -12,7 +12,7 @@ The clock:
 - stays **circular** when you stretch the window or go fullscreen
 - can be expanded to **fullscreen** (F11, double-click, or the View menu)
 
-How the pieces fit together (same style as Eyes, the calculator, and the savers): `WORKFLOWS.md` for build/run and unit responsibilities, `EXECUTION_FLOW.md` for a tick-by-tick trace.
+How the pieces fit together (same style as Eyes, the calculator, and the savers): `WORKINGS.md` for responsibilities and hand math, `EXECUTION_FLOW.md` for a tick-by-tick trace.
 
 ## Requirements
 
