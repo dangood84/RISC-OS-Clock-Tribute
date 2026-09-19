@@ -17,6 +17,19 @@ implementation
 uses
   Windows, Messages, SysUtils, uclockrender, uclockapp;
 
+{ FPC 3.2.2's Win32 Windows unit has no multi-monitor API. user32 does. }
+{$if not declared(MonitorFromWindow)}
+type
+  HMONITOR = type THandle;
+  TMonitorInfo = record
+    cbSize: DWORD;
+    rcMonitor: TRect;
+    rcWork: TRect;
+    dwFlags: DWORD;
+  end;
+  PMonitorInfo = ^TMonitorInfo;
+{$endif}
+
 const
   AppName = 'RISCOSClockWnd';
   CmdAbout = 1001;
@@ -26,6 +39,9 @@ const
   MinSize = 160;
   TickId = 1;
   TickMs = 100;
+{$if not declared(MONITOR_DEFAULTTONEAREST)}
+  MONITOR_DEFAULTTONEAREST = 2;
+{$endif}
 
 var
   Controller: TClockController;
@@ -36,6 +52,13 @@ var
   SavedStyle: LONG;
   SavedRect: TRect;
   SavedMenu: HMENU;
+
+{$if not declared(MonitorFromWindow)}
+function MonitorFromWindow(hwnd: HWND; dwFlags: DWORD): HMONITOR; stdcall;
+  external 'user32.dll' name 'MonitorFromWindow';
+function GetMonitorInfo(hMonitor: HMONITOR; lpmi: PMonitorInfo): BOOL; stdcall;
+  external 'user32.dll' name 'GetMonitorInfoA';
+{$endif}
 
 procedure Present(Wnd: HWND);
 begin
