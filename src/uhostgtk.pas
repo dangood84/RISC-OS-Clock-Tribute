@@ -242,12 +242,13 @@ begin
   gtk_menu_item_set_submenu(PGtkMenuItem(Root), Menu);
   gtk_menu_shell_append(PGtkMenuShell(Bar), Root);
   Item := gtk_menu_item_new_with_label('About RISC OS Clock');
-  g_signal_connect(G_OBJECT(Item), 'activate', TG_SIGNAL_FUNC(@OnAbout), nil);
+  { Linux FPC gtk2 has TGCallback (glib GCallback), not TG_SIGNAL_FUNC. }
+  g_signal_connect(G_OBJECT(Item), 'activate', TGCallback(@OnAbout), nil);
   gtk_menu_shell_append(PGtkMenuShell(Menu), Item);
   Item := gtk_separator_menu_item_new;
   gtk_menu_shell_append(PGtkMenuShell(Menu), Item);
   Item := gtk_menu_item_new_with_label('Quit');
-  g_signal_connect(G_OBJECT(Item), 'activate', TG_SIGNAL_FUNC(@OnQuit), nil);
+  g_signal_connect(G_OBJECT(Item), 'activate', TGCallback(@OnQuit), nil);
   gtk_menu_shell_append(PGtkMenuShell(Menu), Item);
 
   Menu := gtk_menu_new;
@@ -255,7 +256,7 @@ begin
   gtk_menu_item_set_submenu(PGtkMenuItem(Root), Menu);
   gtk_menu_shell_append(PGtkMenuShell(Bar), Root);
   Item := gtk_menu_item_new_with_label('Full Screen');
-  g_signal_connect(G_OBJECT(Item), 'activate', TG_SIGNAL_FUNC(@OnFullScreen), nil);
+  g_signal_connect(G_OBJECT(Item), 'activate', TGCallback(@OnFullScreen), nil);
   gtk_menu_shell_append(PGtkMenuShell(Menu), Item);
 
   Result := Bar;
@@ -277,9 +278,9 @@ begin
   gtk_window_set_resizable(PGtkWindow(MainWin), True);
   gtk_window_set_default_size(PGtkWindow(MainWin), WinSize, WinSize);
   gtk_widget_set_size_request(MainWin, MinSize, MinSize);
-  g_signal_connect(G_OBJECT(MainWin), 'delete-event', TG_SIGNAL_FUNC(@OnDelete), nil);
-  g_signal_connect(G_OBJECT(MainWin), 'key-press-event', TG_SIGNAL_FUNC(@OnKey), nil);
-  g_signal_connect(G_OBJECT(MainWin), 'window-state-event', TG_SIGNAL_FUNC(@OnWindowState), nil);
+  g_signal_connect(G_OBJECT(MainWin), 'delete-event', TGCallback(@OnDelete), nil);
+  g_signal_connect(G_OBJECT(MainWin), 'key-press-event', TGCallback(@OnKey), nil);
+  g_signal_connect(G_OBJECT(MainWin), 'window-state-event', TGCallback(@OnWindowState), nil);
 
   Box := gtk_vbox_new(False, 0);
   gtk_container_add(PGtkContainer(MainWin), Box);
@@ -290,9 +291,9 @@ begin
   gtk_widget_set_size_request(DrawArea, MinSize, MinSize);
   gtk_box_pack_start(PGtkBox(Box), DrawArea, True, True, 0);
   gtk_widget_add_events(DrawArea, GDK_BUTTON_PRESS_MASK or GDK_STRUCTURE_MASK);
-  g_signal_connect(G_OBJECT(DrawArea), 'configure-event', TG_SIGNAL_FUNC(@OnConfigure), nil);
-  g_signal_connect(G_OBJECT(DrawArea), 'expose-event', TG_SIGNAL_FUNC(@OnExpose), nil);
-  g_signal_connect(G_OBJECT(DrawArea), 'button-press-event', TG_SIGNAL_FUNC(@OnButtonPress), nil);
+  g_signal_connect(G_OBJECT(DrawArea), 'configure-event', TGCallback(@OnConfigure), nil);
+  g_signal_connect(G_OBJECT(DrawArea), 'expose-event', TGCallback(@OnExpose), nil);
+  g_signal_connect(G_OBJECT(DrawArea), 'button-press-event', TGCallback(@OnButtonPress), nil);
 
   g_timeout_add(TickMs, TGSourceFunc(@OnTick), nil);
   Present;
